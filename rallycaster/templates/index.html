@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+{% block title %}Main page{% endblock %}
+{% block head %}{% endblock %}
+
+{% block js_templates %}
+{% raw %}
+<script id="template-meetings-list" type="text/html">
+    {{#meetings}}N
+    <div class="media">
+        <a class="pull-left" href="#">
+            <img class="media-object" src="http://placehold.it/64x64">
+        </a>
+        <div class="media-body">
+            <h4 class="media-heading">{{name}}</h4>
+                {{description}}
+        </div>
+    </div>
+    {{/meetings}}
+</script>
+{% endraw %}
+{% endblock %}
+
+{% block header %}
+    <div class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <a class="brand" href="#">RallyCaster</a>
+            <ul class="nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Link</a></li>
+                <li><a href="#">Link</a></li>
+            </ul>
+            <ul class="nav pull-right">
+                {% if user %}
+                <li>
+                    <a href="#">
+                        <img src="https://graph.facebook.com/{{ user.oauth_profile_id }}/picture" width="20px" height="20px" /> {{ user.first_name }}
+                    </a>
+                </li>
+                {% else %}
+                <li><a href="#">Unknown</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="span10">
+            <div class="row">
+                <div class="span6">
+                    {% include 'meeting_add.html' %}
+                    <div id="meetings-list" style="padding-top: 20px"></div>
+                </div>
+                <div class="span4">
+                    <div id="map_canvas"></div>
+                </div>
+            </div>
+        </div>
+        <div class="span2">
+            <div id="meetings-user-helping"></div>
+        </div>
+    </div>
+{% endblock %}

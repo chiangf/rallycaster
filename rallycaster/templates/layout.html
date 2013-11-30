@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+            <title>{% block title %}{% endblock %}</title>
+        {% endblock %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" />
+        <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-1.8.2.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.cookie.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='datepicker/js/bootstrap-datepicker.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='mustache/mustache.js') }}"></script>
+        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='services.js') }}"></script>
+
+        {% block js_templates %}{% endblock %}
+    </head>
+<body>
+    <div id="page">
+        <div id="header">{% block header %}{% endblock %}</div>
+        <div id="body">{% block body %}{% endblock %}</div>
+        <div id="footer">{% block footer %}{% endblock %}</div>
+    </div>
+</body>
+</html>
