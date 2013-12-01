@@ -5,7 +5,7 @@
 {% block js_templates %}
 {% raw %}
 <script id="template-meetings-list" type="text/html">
-    {{#meetings}}N
+    {{#each this}}
     <div class="media">
         <a class="pull-left" href="#">
             <img class="media-object" src="http://placehold.it/64x64">
@@ -15,7 +15,7 @@
                 {{description}}
         </div>
     </div>
-    {{/meetings}}
+    {{/each}}
 </script>
 {% endraw %}
 {% endblock %}
@@ -49,8 +49,9 @@
         <div class="span10">
             <div class="row">
                 <div class="span6">
-                    {% include 'meeting_add.html' %}
-                    <div id="meetings-list" style="padding-top: 20px"></div>
+                    <div id="meetings-list" style="padding-top: 20px">
+                        {% include 'meeting_add.html' %}
+                    </div>
                 </div>
                 <div class="span4">
                     <div id="map_canvas"></div>

@@ -1,6 +1,8 @@
 import json
 from flask import request, current_app
 from datetime import datetime, timedelta
+from pymongo.cursor import Cursor
+from bson import json_util
 
 
 def jsonify_response(status_code=200, *args, **kwargs):
@@ -51,6 +53,8 @@ class ComplexEncoderToString(json.JSONEncoder):
             return obj.strftime("%Y-%m-%d %H:%M:%S.%f%z")   # e.g. 2012-01-20 15:05:02.525389-0500
         elif isinstance(obj, timedelta):
             return str(timedelta)   # TODO: untested
+        elif isinstance(obj, Cursor):
+            return json_util.dumps(obj)
         else:
             return json.JSONEncoder.default(self, obj)
 

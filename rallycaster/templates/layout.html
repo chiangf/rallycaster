@@ -6,16 +6,23 @@
         {% endblock %}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap-responsive.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" />
-        <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery-1.8.2.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='jquery/jquery.cookie.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='bootstrap/js/bootstrap.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='datepicker/js/bootstrap-datepicker.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='mustache/mustache.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.8.2.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery.cookie.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/datepicker/js/bootstrap-datepicker.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/handlebars/handlebars.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/underscore/underscore.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/backbone/backbone.js') }}"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='services.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/services.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/views/MeetingListView.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/models/MeetingModel.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/collections/MeetingCollection.js') }}"></script>
 
         {% block js_templates %}{% endblock %}
     </head>

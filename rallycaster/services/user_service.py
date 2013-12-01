@@ -19,12 +19,11 @@ def add_user(user_info):
     return user_id
 
 
-def create_session_for_user(user):
-    session_token = session.generate_guid()
-
+def create_session_for_user(user, session_token=session.generate_guid(), is_oauth=False):
     session_info = {
         'user_id': user['_id'],
         'token': session_token,
+        'is_oauth': is_oauth,
         'created': datetime.utcnow()
     }
     _db.sessions.insert(session_info)

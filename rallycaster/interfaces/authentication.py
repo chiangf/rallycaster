@@ -40,15 +40,12 @@ def login():
         _external=True))
 
 
-@app.route('/login/authorized')
+@app.route('/login/authorized/oauth')
 @facebook.authorized_handler
 def facebook_authorized(resp):
     if resp is None:
-        return 'Access denied: reason=%s error=%s' % (
-            request.args['error_reason'],
-            request.args['error_description']
-            )
-    session['oauth_token'] = (resp['access_token'], '')
+        return 'Access denied: reason=%s error=%s' % (request.args['error_reason'],
+                                                      request.args['error_description'])
     me = facebook.get('/me')
 
     # Create user if it does not already exist
@@ -66,7 +63,8 @@ def facebook_authorized(resp):
         user_service.add_user(user)
 
     # Store session token to user id mapping into cache
-    session_token = user_service.create_session_for_user(user)
+    session_token = resp['access_token']
+    user_service.create_session_for_user(user, session_token, is_oauth=True)
 
     response = make_response(render_template('index.html', user=user))
     response.set_cookie('session-token', session_token)
