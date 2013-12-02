@@ -4,8 +4,8 @@
 
 {% block js_templates %}
 {% raw %}
-<script id="template-meetings-list" type="text/html">
-    {{#each this}}
+<script id="template-meetings-list" type="text/template">
+    {{#each meetings}}
     <div class="media">
         <a class="pull-left" href="#">
             <img class="media-object" src="http://placehold.it/64x64">
@@ -48,10 +48,10 @@
     <div class="row">
         <div class="span10">
             <div class="row">
-                <div class="span6">
-                    <div id="meetings-list" style="padding-top: 20px">
-                        {% include 'meeting_add.html' %}
-                    </div>
+                <div id="meetings-container" class="span6">
+                    <div id="open-meeting-modal" class="btn btn-primary">Add new meeting</div>
+                    {% include 'meeting_add.html' %}
+                    <div id="meetings-list" style="padding-top: 20px"></div>
                 </div>
                 <div class="span4">
                     <div id="map_canvas"></div>

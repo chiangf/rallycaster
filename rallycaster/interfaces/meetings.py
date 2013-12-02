@@ -8,23 +8,20 @@ from rallycaster.services import meeting_service
 
 @app.route('/meetings', methods=['POST'])
 def create_meeting():
-    # TODO: remove me
-    asdf = json_util.loads(request.form)
-
-    meeting_name = request.form['meeting_name']
-    meeting_date = datetime.strptime(request.form['meeting_date'], '%d-%m-%Y')
-    meeting_description = request.form['meeting_description']
-    meeting_location = request.form['meeting_location']
-    meeting_loc_latitude = request.form['meeting_loc_latitude']
-    meeting_loc_longitude = request.form['meeting_loc_longitude']
+    meeting_name = request.json['name']
+    meeting_date = datetime.strptime(request.json['date'], '%d-%m-%Y')
+    meeting_description = request.json['description']
+    meeting_location = request.json['location']
+    meeting_location_latitude = request.json['location_latitude']
+    meeting_location_longitude = request.json['location_longitude']
 
     meeting_info = {
         'name': meeting_name,
         'date': meeting_date,
         'description': meeting_description,
         'location': meeting_location,
-        'location_latitude': meeting_loc_latitude,
-        'location_longitude': meeting_loc_longitude,
+        'location_latitude': meeting_location_latitude,
+        'location_longitude': meeting_location_longitude,
         'created': datetime.utcnow(),
         'updated': datetime.utcnow()
     }

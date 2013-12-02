@@ -1,5 +1,5 @@
 (function() {
-    var Application = window.Application = {
+    var App = window.App = {
         routers: {},
         models: {},
         collections: {},

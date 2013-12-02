@@ -1,15 +1,10 @@
-window.Application.views.MeetingListView = Backbone.View.extend({
-    $el: $("#meetings-list"),
+window.App.views.MeetingListView = Backbone.View.extend({
+    el: "#meetings-list",
 
-    events: {
-    },
+    events: {},
 
     initialize: function() {
-        this.meetings = new Application.collections.MeetingCollection();
-
-//        $("button#meeting-button-save").click(function(event) {
-//            this.addMeeting(event);
-//        }).bind(this);
+        this.meetings = new App.collections.Meetings();
 
         this.getMeetings();
     },
@@ -17,19 +12,25 @@ window.Application.views.MeetingListView = Backbone.View.extend({
     getMeetings: function() {
         this.meetings
             .fetch()
-            .done( this.renderMeetings.bind(this) );
+            .done( this.render.bind(this) );
     },
 
-    renderMeetings: function() {debugger;
+    render: function() {
         var template = Handlebars.compile( $("#template-meetings-list").html() );
-        this.$el.html(template);
+        this.$el.html(template({
+            meetings: this.meetings.toJSON()
+        }));
     },
 
-    addMeeting: function(meeting_info) {debugger;
-        this.meetings.create(meeting_info);
-    }
-});
+    addMeeting: function() {
+        var meeting = new App.models.Meeting();
+        meeting.save({
+            name: $("#meeting-name").val(),
+            description: $("#meeting-description").val(),
+            date: $("#meeting-date-text").val(),
+            location: $("#meeting-location").val()
+        });
 
-$(document).ready(function() {
-    view = new Application.views.MeetingListView();
+        this.meetings.add(meeting);
+    }
 });

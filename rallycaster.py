@@ -10,4 +10,8 @@ def index():
 
 if __name__ == '__main__':
     config.set_configuration()
-    app.run()
+
+    if app.debug:
+        app.run(use_debugger=True, use_reloader=False)
+    else:
+        app.run(debug=True)
