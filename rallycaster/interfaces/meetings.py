@@ -1,5 +1,4 @@
 from datetime import datetime
-from bson import json_util
 from flask import request
 from rallycaster import app
 from rallycaster.helpers.serializers import jsonify_response

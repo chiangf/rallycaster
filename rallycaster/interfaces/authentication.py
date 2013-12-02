@@ -5,24 +5,14 @@ from rallycaster.services import user_service
 
 
 oauth = OAuth()
-
-#twitter = oauth.remote_app('twitter',
-#                           base_url='http://api.twitter.com/1/',
-#                           request_token_url='http://api.twitter.com/oauth/request_token',
-#                           access_token_url='http://api.twitter.com/oauth/access_token',
-#                           authorize_url='http://api.twitter.com/oauth/authenticate',
-#                           consumer_key='JXq2DU8wtU9xq5VDTnxTWw',
-#                           consumer_secret='RmQrLDnCqSoOzrtwSY3VdhxerqpH1EZTpHTHU9XS0'
-#)
-
-facebook = oauth.remote_app('facebook',
-    base_url='https://graph.facebook.com/',
-    request_token_url=None,
-    access_token_url='/oauth/access_token',
-    authorize_url='https://www.facebook.com/dialog/oauth',
-    consumer_key="257720404339505",
-    consumer_secret="2426fb4a30eabf79f915d1d39f5b3570",
-    request_token_params={'scope': 'publish_stream'}
+facebook = oauth.remote_app(app.config['FACEBOOK']['name'],
+                            base_url=app.config['FACEBOOK']['base_url'],
+                            request_token_url=app.config['FACEBOOK']['request_token_url'],
+                            access_token_url=app.config['FACEBOOK']['access_token_url'],
+                            authorize_url=app.config['FACEBOOK']['authorize_url'],
+                            consumer_key=app.config['FACEBOOK']['consumer_key'],
+                            consumer_secret=app.config['FACEBOOK']['consumer_secret'],
+                            request_token_params=app.config['FACEBOOK']['request_token_params']
 )
 
 
