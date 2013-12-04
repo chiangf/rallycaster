@@ -3,6 +3,7 @@ Flask-OAuth==0.12
 Jinja2==2.7.1
 MarkupSafe==0.18
 Werkzeug==0.9.4
+decorator==3.4.0
 distribute==0.7.3
 httplib2==0.8
 itsdangerous==0.23

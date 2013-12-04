@@ -9,6 +9,11 @@ _client = MongoClient()
 _db = _client.rally_database
 
 
+def get_user_by_id(user_id):
+    user = _db.users.find_one({'_id': user_id})
+    return user
+
+
 def get_user_by_oauth_id(oauth_id):
     user = _db.users.find_one({'oauth_id': oauth_id})
     return user
@@ -29,3 +34,11 @@ def create_session_for_user(user, session_token=session.generate_guid(), is_oaut
     _db.sessions.insert(session_info)
 
     return session_token
+
+
+def get_user_by_session_token(session_token):
+    session = _db.sessions.find_one({'token': session_token})
+    user_id = session['user_id']
+
+    user = get_user_by_id(user_id)
+    return user
