@@ -1,12 +1,4 @@
-from flask import render_template, g
 from rallycaster import app
-from rallycaster.interfaces.authentication import auth_required
-
-
-@app.route('/')
-@auth_required()
-def index():
-    return render_template('index.html', user=g.user)
 
 
 if __name__ == '__main__':

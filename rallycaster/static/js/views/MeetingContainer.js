@@ -10,7 +10,7 @@ window.App.views.MeetingContainerView = Backbone.View.extend({
     },
 
     openMeetingModal: function() {
-        var view = new window.App.views.ModalView({caller: this, template: "#template-meeting-add"});
+        var view = new window.App.views.ModalView({template: "#template-meeting-add"});
         var modal = new Backbone.BootstrapModal({
             content: view,
             title: "Add New Meeting",

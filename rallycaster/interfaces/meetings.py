@@ -2,10 +2,12 @@ from datetime import datetime
 from flask import request
 from rallycaster import app
 from rallycaster.helpers.serializers import jsonify_response
+from rallycaster.interfaces.authentication import auth_required
 from rallycaster.services import meeting_service
 
 
-@app.route('/meetings', methods=['POST'])
+@app.route('/meetings/', methods=['POST'])
+@auth_required()
 def create_meeting():
     meeting_name = request.json['name']
     meeting_date = datetime.strptime(request.json['date'], '%d-%m-%Y')
@@ -29,7 +31,8 @@ def create_meeting():
     return jsonify_response(meeting_id=meeting_id)
 
 
-@app.route('/meetings', methods=['GET'])
+@app.route('/meetings/', methods=['GET'])
+@auth_required()
 def get_meetings_for_user():
     meetings = meeting_service.get_meetings()
     return jsonify_response(meetings=meetings)

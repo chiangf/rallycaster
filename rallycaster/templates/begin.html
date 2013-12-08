@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% block title %}Main page{% endblock %}
+{% block title %}Begin Rally{% endblock %}
 {% block head %}{% endblock %}
 
 {% block js_templates %}
@@ -32,9 +32,15 @@
             <ul class="nav pull-right">
                 {% if user %}
                 <li>
-                    <a href="#">
+                    <a id="user-profile-drop" role="button" class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <img src="https://graph.facebook.com/{{ user.oauth_profile_id }}/picture" width="20px" height="20px" /> {{ user.first_name }}
+                        <b class="caret"></b>
                     </a>
+                    <ul id="user-profile-dropdown" class="dropdown-menu" role="menu" aria-labelledby="user-profile-drop">
+                        <li role="presentation">
+                            <a id="user-profile-logout" role="menuitem" href="#">Logout</a>
+                        </li>
+                    </ul>
                 </li>
                 {% else %}
                 <li><a href="#">Unknown</a></li>
@@ -45,6 +51,7 @@
 {% endblock %}
 
 {% block body %}
+    <div id="login-modal-container"></div>
     <div class="row">
         <div class="span10">
             <div class="row">

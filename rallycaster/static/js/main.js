@@ -7,4 +7,6 @@
         controllers: {},
         events: {}
     };
+
+    App.baseUrl = "http://localhost:5000";
 })();

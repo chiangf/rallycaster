@@ -3,6 +3,7 @@ from datetime import datetime
 from pymongo import MongoClient
 
 from rallycaster.helpers import session
+from rallycaster.cache.cache_service import cache
 
 
 _client = MongoClient()
@@ -24,15 +25,19 @@ def add_user(user_info):
     return user_id
 
 
-def create_session_for_user(user, session_token=session.generate_guid(), is_oauth=False):
+def update_user(user_info):
+    _db.users.update({'_id': user_info['_id']}, user_info, upsert=False)
+
+
+def create_session_for_user(user, session_token):
     session_info = {
         'user_id': user['_id'],
         'token': session_token,
-        'is_oauth': is_oauth,
         'created': datetime.utcnow()
     }
     _db.sessions.insert(session_info)
 
+    session_token = session.generate_guid()
     return session_token
 
 

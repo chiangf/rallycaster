@@ -1,3 +1,5 @@
+from flask import g, redirect, url_for
+
 from rallycaster import app
 from rallycaster.helpers.serializers import jsonify_response
 
@@ -14,11 +16,14 @@ def catch_all(exc):
     else:
         status_code = 500   # Internal Server Error
 
-    return jsonify_response(
-        status_code=status_code,
-        success=False,
-        error=str(exc)
-    )
+    if 'is_web' in g:
+        return redirect(url_for('index'))
+    else:
+        return jsonify_response(
+            status_code=status_code,
+            success=False,
+            error=str(exc)
+        )
 
 
 @app.errorhandler(404)
