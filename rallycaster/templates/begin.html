@@ -3,6 +3,11 @@
 {% block head %}{% endblock %}
 
 {% block js_templates %}
+<script type="text/javascript">
+    $(document).on('ready', function() {
+        App.user = {{ user|jsonify_js|safe }};
+    });
+</script>
 {% raw %}
 <script id="template-meetings-list" type="text/template">
     {{#each meetings}}

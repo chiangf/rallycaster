@@ -38,6 +38,14 @@ def jsonify_response(status_code=200, *args, **kwargs):
     return response
 
 
+def jsonify_js(value):
+    """
+    Used to serialize objects into json format for jinja2 templates.
+    """
+    json_value = json.dumps(value, cls=ComplexEncoderToString)
+    return json_value
+
+
 class ComplexEncoderToString(json.JSONEncoder):
     """
     Helps encode JSON object into string even if there are Python datetime or timedelta objects, which

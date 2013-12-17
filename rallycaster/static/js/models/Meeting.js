@@ -10,7 +10,7 @@ window.App.models.Meeting = Backbone.Model.extend({
         if (this.id) {
             return "/meetings/" + this.id;
         } else {
-            return "/meetings"
+            return "/meetings/"
         }
     }
 });

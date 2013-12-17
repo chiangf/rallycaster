@@ -9,3 +9,6 @@ import interfaces.error_handling
 import interfaces.web
 import interfaces.authentication
 import interfaces.meetings
+
+from rallycaster.helpers import serializers
+app.jinja_env.filters['jsonify_js'] = serializers.jsonify_js

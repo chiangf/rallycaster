@@ -8,5 +8,6 @@
         events: {}
     };
 
-    App.baseUrl = "http://localhost:5000";
+    // Stores authenticated user object, set in begin.html
+    App.user = {};
 })();
