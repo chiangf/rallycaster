@@ -10,16 +10,17 @@ window.App.views.MeetingContainerView = Backbone.View.extend({
     },
 
     openMeetingModal: function() {
-        var view = new window.App.views.ModalView({template: "#template-meeting-add"});
-        var modal = new Backbone.BootstrapModal({
-            content: view,
-            title: "Add New Meeting",
-            animate: true
-        });
+        var template = Handlebars.compile( $("#template-meetings-add-modal").html() );
+        $("#meeting-add-modal-container").html(template);
 
-        modal.open(function() {
-            // Called if OK in modal dialog was clicked
+        var $meetingAddModal = $("#meeting-add-modal");
+
+        $meetingAddModal.find("#meeting-add-save-button").click(function(e) {
+            // Called if Save in modal dialog was clicked
             this.meetingsListSubView.addMeeting();
+            $meetingAddModal.modal('hide');
         }.bind(this));
+
+        $meetingAddModal.modal('show');
     }
 });

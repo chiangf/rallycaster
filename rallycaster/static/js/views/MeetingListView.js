@@ -26,6 +26,7 @@ window.App.views.MeetingListView = Backbone.View.extend({
         var meeting = new App.models.Meeting();
         meeting.save({
             name: $("#meeting-name").val(),
+            invited_people: $("#invited-people").val(),
             description: $("#meeting-description").val(),
             date: $("#meeting-date-text").val(),
             location: $("#meeting-location").val()

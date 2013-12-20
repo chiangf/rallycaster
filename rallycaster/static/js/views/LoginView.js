@@ -5,13 +5,16 @@ window.App.views.LoginView = Backbone.View.extend({
         "click #login-facebook": "loginFacebook"
     },
 
+    initialize: function() {
+        this.render();
+    },
+
     render: function() {
-        var view = new window.App.views.ModalView({template: "#template-login-chooser"});
-        var modal = new Backbone.BootstrapModal({
-            content: view,
-            title: "Login",
-            animate: true
-        }).open();
+        var template = Handlebars.compile( $("#template-login-chooser-modal").html() );
+        this.$el.html(template);
+
+        var $loginModal = $("#login-modal");
+        $loginModal.modal('show');
     },
 
     loginFacebook: function() {

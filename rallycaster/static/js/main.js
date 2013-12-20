@@ -9,5 +9,5 @@
     };
 
     // Stores authenticated user object, set in begin.html
-    App.user = {};
+    App.user = null;
 })();

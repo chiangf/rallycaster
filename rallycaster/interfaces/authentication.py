@@ -19,21 +19,25 @@ class OAuthTokenType(object):
     GOOGLE = 'google'
 
 
+def get_user_from_session():
+    oauth_type = session.get(SESSION_OAUTH_TYPE)
+    oauth_token = session.get(SESSION_OAUTH_TOKEN)
+
+    if None in (oauth_type, oauth_token):
+        raise AuthException(u"Invalid or expired session token")
+
+    session_token = oauth_token[0]
+    user = user_service.get_user_by_session_token(session_token)
+    if user is None:
+        raise AuthException(u"Invalid or expired session token")
+
+    return user
+
+
 def auth_required():
     @decorator
     def decorated_function(func, *args, **kwargs):
-        oauth_type = session.get(SESSION_OAUTH_TYPE)
-        oauth_token = session.get(SESSION_OAUTH_TOKEN)
-
-        if None in (oauth_type, oauth_token):
-            raise AuthException(u"Invalid or expired session token")
-
-        session_token = oauth_token[0]
-        user = user_service.get_user_by_session_token(session_token)
-        if user is None:
-            raise AuthException(u"Invalid or expired session token")
-
-        g.user = user
+        g.user = get_user_from_session()
 
         ret = func(*args, **kwargs)
         return ret
