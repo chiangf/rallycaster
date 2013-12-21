@@ -3,16 +3,37 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-		cssmin: {
-			compress: {
+		less: {
+			options: {
+				ieCompat: true,
+				strictImports: false,
+				syncImport: false,
+				report: 'min'
+			},
+			css: {
+				options: {
+					compress: false,
+					yuicompress: false
+				},
 				files: {
-					'css/calendar.min.css': ['css/calendar.css']
+					'css/calendar.css': 'less/calendar.less',
+				}
+			},
+			css_min: {
+				options: {
+					compress: true,
+					yuicompress: true
+				},
+				files: {
+					'css/calendar.min.css': 'css/calendar.css'
 				}
 			}
 		},
 		uglify: {
 			options: {
-				banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\nhttps://github.com/Serhioromano/bootstrap-calendar.git\n'
+				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
+					'<%= grunt.template.today("yyyy-mm-dd") %> - ' +
+					'https://github.com/Serhioromano/bootstrap-calendar */\n'
 			},
 			build: {
 				src: 'js/calendar.js',
@@ -21,11 +42,11 @@ module.exports = function(grunt) {
 		}
 	});
 
-	// Load the plugin that provides the "uglify" task.
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
+	// Load the plugin that provides the tasks.
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 
 	// Default task(s).
-	grunt.registerTask('default', ['cssmin', 'uglify']);
+	grunt.registerTask('default', ['less:css', 'less:css_min', 'uglify']);
 
 };

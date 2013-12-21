@@ -1,12 +1,13 @@
 (function($) {
 
-    "use strict";
+	"use strict";
 
 	var options = {
-		events_url: 'events.json.php',
+		events_source: 'events.json.php',
 		view: 'month',
-        day: '2013-03-12',
-		first_day: 2,
+		tmpl_path: 'tmpls/',
+		tmpl_cache: false,
+		day: '2013-03-12',
 		onAfterEventsLoad: function(events) {
 			if(!events) {
 				return;
@@ -48,8 +49,20 @@
 		});
 	});
 
-    $('#first_day').change(function(){
-        calendar.setOptions({first_day: $(this).val()});
-        calendar.view();
-    });
+	$('#first_day').change(function(){
+		var value = $(this).val();
+		value = value.length ? parseInt(value) : null;
+		calendar.setOptions({first_day: value});
+		calendar.view();
+	});
+
+	$('#language').change(function(){
+		calendar.setLanguage($(this).val());
+		calendar.view();
+	});
+
+	$('#events-in-modal').change(function(){
+		var val = $(this).is(':checked') ? $(this).val() : null;
+		calendar.setOptions({modal: val});
+	});
 }(jQuery));
