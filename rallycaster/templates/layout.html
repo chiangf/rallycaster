@@ -6,16 +6,15 @@
         {% endblock %}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap.css') }}" type="text/css" />
-        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bootstrap/css/bootstrap-theme.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bower_components/bootstrap/dist/css/bootstrap.min.css') }}" type="text/css" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='lib/bower_components/bootstrap/dist/css/bootstrap-theme.min.css') }}" type="text/css" />
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" />
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery-1.8.2.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/jquery/jquery.cookie.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/bootstrap/js/bootstrap.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/jquery/jquery.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='lib/datepicker/js/bootstrap-datepicker.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/handlebars/handlebars.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/underscore/underscore.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/backbone/backbone.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/handlebars/handlebars.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/underscore/underscore-min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/backbone/backbone-min.js') }}"></script>
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
