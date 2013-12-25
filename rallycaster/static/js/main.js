@@ -8,6 +8,8 @@
         events: {}
     };
 
+    App.router = {};
+
     // Stores authenticated user object, set in begin.html
     App.user = null;
 })();

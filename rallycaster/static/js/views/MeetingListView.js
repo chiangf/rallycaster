@@ -4,13 +4,16 @@ window.App.views.MeetingListView = Backbone.View.extend({
     events: {},
 
     initialize: function() {
-        this.meetings = new App.collections.Meetings();
+        this.meetingCollection = new App.collections.MeetingCollection();
+
+        // Re-render the meetings list when the collection changes
+        this.listenTo( this.meetingCollection, 'add', this.render );
 
         this.getMeetings();
     },
 
     getMeetings: function() {
-        this.meetings
+        this.meetingCollection
             .fetch()
             .done( this.render.bind(this) );
     },
@@ -18,12 +21,15 @@ window.App.views.MeetingListView = Backbone.View.extend({
     render: function() {
         var template = Handlebars.compile( $("#template-meetings-list").html() );
         this.$el.html(template({
-            meetings: this.meetings.toJSON()
+            meetings: this.meetingCollection.toJSON()
         }));
+
+        // Render in the calendar view
+        $(document).trigger( "didFinishRenderingMeetings_global" );
     },
 
     addMeeting: function() {
-        var meeting = new App.models.Meeting();
+        var meeting = new App.models.MeetingModel();
         meeting.save({
             name: $("#meeting-name").val(),
             invited_people: $("#invited-people").val(),
@@ -32,6 +38,8 @@ window.App.views.MeetingListView = Backbone.View.extend({
             location: $("#meeting-location").val()
         });
 
-        this.meetings.add(meeting);
+        this.meetingCollection.add(meeting);
+
+
     }
 });

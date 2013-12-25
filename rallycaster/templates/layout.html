@@ -19,7 +19,7 @@
 
         <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/bootstrap-calendar/js/language/template.js') }}"></script>
         <link rel="stylesheet" href="{{ url_for('static', filename='lib/bower_components/bootstrap-calendar/css/calendar.min.css') }}" type="text/css" />
-        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/bootstrap-calendar/js/calendar.min.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/bootstrap-calendar/js/calendar.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='lib/datepicker/js/bootstrap-datepicker.js') }}"></script>
 
         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css" />
@@ -27,12 +27,13 @@
 
         <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-        <script type="text/javascript" src="{{ url_for('static', filename='js/models/Meeting.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/collections/Meetings.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/models/MeetingModel.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/collections/MeetingCollection.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/views/LoginView.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/views/UserMenuView.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/views/CalendarView.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/views/MeetingListView.js') }}"></script>
-        <script type="text/javascript" src="{{ url_for('static', filename='js/views/MeetingContainer.js') }}"></script>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/views/MeetingPanelView.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='js/routers/AppRouter.js') }}"></script>
 
         {% block js_templates %}{% endblock %}

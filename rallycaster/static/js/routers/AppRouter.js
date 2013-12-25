@@ -1,20 +1,21 @@
 window.App.routers.AppRouter = Backbone.Router.extend({
     routes: {
-        "": "goBegin"
     },
+
+    views: {},
 
     initialize: function() {
         console.log("initialize user menu");
-        new App.views.UserMenuView();
+        this.views.userMenuView = new App.views.UserMenuView();
     },
 
     goLogin: function() {
         console.log("login route");
-        new App.views.LoginView();
+        this.views.loginView = new App.views.LoginView();
     },
 
     goBegin: function() {
         console.log("begin route");
-        new App.views.MeetingContainerView();
+        this.views.meetingPanelView = new App.views.MeetingPanelView();
     }
 });

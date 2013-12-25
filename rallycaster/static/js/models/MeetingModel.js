@@ -1,4 +1,4 @@
-window.App.models.Meeting = Backbone.Model.extend({
+window.App.models.MeetingModel = Backbone.Model.extend({
     idAttribute: "_id",
 
     defaults: {
