@@ -5,19 +5,19 @@ window.App.views.LoginView = Backbone.View.extend({
         "click #login-facebook": "loginFacebook"
     },
 
-    initialize: function() {
+    initialize: function () {
         this.render();
     },
 
-    render: function() {
-        var template = Handlebars.compile( $("#template-login-chooser-modal").html() );
+    render: function () {
+        var template = Handlebars.compile($("#template-login-chooser-modal").html());
         this.$el.html(template);
 
         var $loginModal = $("#login-modal");
         $loginModal.modal('show');
     },
 
-    loginFacebook: function() {
+    loginFacebook: function () {
         $.ajax({
             url: "/login/facebook/",
             type: "POST"

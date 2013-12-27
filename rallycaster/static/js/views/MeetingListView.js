@@ -1,35 +1,40 @@
 window.App.views.MeetingListView = Backbone.View.extend({
     el: "#meetings-list",
 
-    events: {},
+    events: {
+        "click .meeting": "openMeetingDetails"
+    },
 
-    initialize: function() {
-        this.meetingCollection = new App.collections.MeetingCollection();
-
-        // Re-render the meetings list when the collection changes
-        this.listenTo( this.meetingCollection, 'add', this.render );
+    initialize: function () {
+        App.router.collections.meetingCollection = new App.collections.MeetingCollection();
 
         this.getMeetings();
     },
 
-    getMeetings: function() {
-        this.meetingCollection
+    getMeetings: function () {
+        App.router.collections.meetingCollection
             .fetch()
-            .done( this.render.bind(this) );
+            .done(this.render.bind(this));
     },
 
-    render: function() {
-        var template = Handlebars.compile( $("#template-meetings-list").html() );
-        this.$el.html(template({
-            meetings: this.meetingCollection.toJSON()
-        }));
+    render: function () {
+        var template = Handlebars.compile($("#template-meeting-list-item").html());
+
+        this.$el.empty();
+
+        App.router.collections.meetingCollection.each(function (meeting, index) {
+            this.$el.append(template(meeting.toJSON()));
+        }.bind(this));
 
         // Render in the calendar view
-        $(document).trigger( "didFinishRenderingMeetings_global" );
+        $(document).trigger("didFinishRenderingMeetings_global");
     },
 
-    addMeeting: function() {
-        var meeting = new App.models.MeetingModel();
+    saveMeeting: function (meeting) {
+        if (!meeting) {
+            meeting = new App.models.MeetingModel();
+        }
+
         meeting.save({
             name: $("#meeting-name").val(),
             invited_people: $("#invited-people").val(),
@@ -38,8 +43,11 @@ window.App.views.MeetingListView = Backbone.View.extend({
             location: $("#meeting-location").val()
         });
 
-        this.meetingCollection.add(meeting);
+        if (!meeting) {
+            App.router.collections.meetingCollection.add(meeting);
+        }
 
-
+        // Re-render the meetings list when the collection changes
+        this.getMeetings();
     }
 });

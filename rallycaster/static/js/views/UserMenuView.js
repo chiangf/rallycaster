@@ -5,7 +5,7 @@ window.App.views.UserMenuView = Backbone.View.extend({
         "click #user-profile-logout": "logout"
     },
 
-    logout: function() {
+    logout: function () {
         $.ajax({
             url: "/logout/",
             type: "PUT"

@@ -6,7 +6,7 @@ window.App.models.MeetingModel = Backbone.Model.extend({
         location_longitude: null
     },
 
-    url: function() {
+    url: function () {
         if (this.id) {
             return "/meetings/" + this.id;
         } else {

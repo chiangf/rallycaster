@@ -1,14 +1,14 @@
 window.App.views.CalendarView = Backbone.View.extend({
-    el: null,
+    el: "#calendar-container",
 
     events: {
     },
 
-    initialize: function() {
+    initialize: function () {
     },
 
-    render: function(getMeetingsFunc) {
-        var calendar = $("#calendar-container").calendar({
+    render: function (getMeetingsFunc) {
+        var calendar = this.$el.calendar({
             events_source: getMeetingsFunc,
             tmpl_path: "static/lib/bower_components/bootstrap-calendar/tmpls/"
         });

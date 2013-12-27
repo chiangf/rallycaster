@@ -1,4 +1,4 @@
-(function() {
+(function () {
     var App = window.App = {
         routers: {},
         models: {},

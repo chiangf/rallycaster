@@ -3,6 +3,7 @@ from flask import request
 from rallycaster import app
 from rallycaster.helpers.serializers import jsonify_response
 from rallycaster.interfaces.authentication import auth_required
+from rallycaster.interfaces.error_handling import InputException
 from rallycaster.services import meeting_service
 
 
@@ -33,6 +34,26 @@ def create_meeting():
     meeting_id = meeting_service.add_meeting(meeting_info)
 
     return jsonify_response(meeting_id=meeting_id)
+
+
+@app.route('/meetings/<string:meeting_id>', methods=['PUT'])
+@auth_required()
+def update_meeting(meeting_id):
+    meeting = meeting_service.get_meeting(meeting_id)
+    if not meeting:
+        raise InputException(u"Meeting {0} does not exist".format(meeting_id))
+
+    meeting['name'] = request.json['name']
+    meeting['date'] = datetime.strptime(request.json['date'], '%d-%m-%Y')
+    meeting['invited_people'] = request.json['invited_people']
+    meeting['description'] = request.json['description']
+    meeting['location'] = request.json['location']
+    meeting['location_latitude'] = request.json['location_latitude']
+    meeting['location_longitude'] = request.json['location_longitude']
+
+    meeting_service.update_meeting(meeting)
+
+    return jsonify_response(updated=True)
 
 
 @app.route('/meetings/', methods=['GET'])

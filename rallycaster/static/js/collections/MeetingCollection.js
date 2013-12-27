@@ -3,17 +3,18 @@ window.App.collections.MeetingCollection = Backbone.Collection.extend({
 
     url: "/meetings/",
 
-    initialize: function() {
+    initialize: function () {
         _.bindAll(this, "getMeetingsForCalendar");
     },
 
-    parse: function(response) {
+    // Parse response from API
+    parse: function (response) {
         return response.meetings;
     },
 
-    getMeetingsForCalendar: function() {
+    getMeetingsForCalendar: function () {
         var meetings = [];
-        _.each( this.models, function( model ) {
+        _.each(this.models, function (model) {
             meetings.push({
                 "id": model.get("_id"),
                 "title": model.get("name"),

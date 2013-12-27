@@ -47,6 +47,11 @@ class CacheException(Exception):
     pass
 
 
+class InputException(Exception):
+    """Exception raised if there was invalid input parameters"""
+    pass
+
+
 class MemStoreException(Exception):
     """Exception raised by memory storage"""
     pass
