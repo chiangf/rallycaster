@@ -11,7 +11,13 @@
         }
 
         // Setup default ajax handlers
+        var csrfToken = $("meta[name=csrf-token]").attr("content");
         $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                    xhr.setRequestHeader("X-CSRFToken", csrfToken);
+                }
+            },
             error: function(xhr, status, error) {
                 console.log(error);
 
@@ -87,8 +93,8 @@
                         <div class="form-group">
                             <label for="meeting-date">Date</label>
                             <!-- TODO: change hardcoded date to current date -->
-                            <div class="input-append date" id="meeting-date" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                                <input id="meeting-date-text" class="form-control" size="16" type="text" value="12-02-2012" readonly="" value="{{ date }}">
+                            <div class="input-append date" id="meeting-date" data-date="2012-02-12 00:00:00" data-date-format="yyyy-mm-dd">
+                                <input id="meeting-date-text" class="form-control" size="16" type="text" value="2012-02-12 00:00:00" readonly="" value="{{ date }}">
                                 <span class="add-on"><i class="icon-calendar"></i></span>
                             </div>
                         </div>

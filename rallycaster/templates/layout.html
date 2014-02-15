@@ -6,6 +6,7 @@
         {% endblock %}
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/jquery/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ url_for('static', filename='lib/bower_components/handlebars/handlebars.min.js') }}"></script>

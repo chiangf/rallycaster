@@ -1,10 +1,14 @@
 Flask==0.10.1
 Flask-OAuth==0.12
+Flask-WTF==0.9.4
 Jinja2==2.7.1
 MarkupSafe==0.18
+Pygments==1.6
+WTForms==1.0.5
 Werkzeug==0.9.4
 decorator==3.4.0
 distribute==0.7.3
+docutils==0.11
 httplib2==0.8
 itsdangerous==0.23
 oauth2==1.5.211

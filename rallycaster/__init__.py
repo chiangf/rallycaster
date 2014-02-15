@@ -1,8 +1,11 @@
 from flask import Flask
 app = Flask(__name__, instance_relative_config=True)
 
-from config import config
+from rallycaster import config
 config.set_configuration()
+
+from flask_wtf.csrf import CsrfProtect
+csrf = CsrfProtect(app)
 
 import interfaces.request_callbacks
 import interfaces.error_handling
