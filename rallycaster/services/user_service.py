@@ -1,8 +1,7 @@
 from datetime import datetime
 
-from rallycaster import mongo
 from rallycaster import helpers
-from rallycaster.cache.cache_service import cache
+from rallycaster import mongo
 
 
 def get_user_by_id(user_id):

@@ -1,20 +1,19 @@
 from datetime import datetime
-from flask import g, request, render_template_string
+from flask import Blueprint, current_app, g, request, render_template_string
+from rallycaster.api import api
 
-from rallycaster import app
 
-
-@app.before_request
+@api.before_app_request
 def before_request_callback(*args, **kwargs):
     g.request_start_time = datetime.utcnow()
 
-    app.logger.info(u">>> Start request: {0} {1}".format(request.method, request.path))
+    current_app.logger.info(u">>> Start request: {0} {1}".format(request.method, request.path))
 
 
-@app.after_request
+@api.after_app_request
 def after_request_callback(response):
     elapsed = datetime.utcnow() - g.request_start_time
-    app.logger.info(u"<<< End request: {0} {1} (elapsed={2} secs)".format(request.method, request.path, elapsed))
+    current_app.logger.info(u"<<< End request: {0} {1} (elapsed={2} secs)".format(request.method, request.path, elapsed))
 
     # Enable cross-origin resource sharing (CORS). This will happen in normal EASE admin -> EASE web services
     # calls because this is defined as a cross-origin request. Same origin is defined as

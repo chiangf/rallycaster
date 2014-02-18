@@ -1,5 +1,5 @@
-from rallycaster import mongo
 from bson.objectid import ObjectId
+from rallycaster import mongo
 
 
 def add_meeting(meeting_info):

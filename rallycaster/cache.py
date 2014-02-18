@@ -4,28 +4,13 @@ Defines the wrapper to the cache. The cache implementation currently used is Red
 
 import redis
 import cPickle
-from rallycaster import app
-from rallycaster.interfaces.error_handling import DataException
+from flask import current_app
+from rallycaster.api.errors import DataException
 
 
 # If no timeout is specified, this default timeout value will be set. When the redis key expires,
 # the key will disappear automatically.
 DEFAULT_EXPIRE_TIMEOUT_IN_SECS = 86400  # 1 day in seconds
-
-
-def get_redis_connection():
-    """
-    Creates a Redis instance that will be used to talk with Redis. This instance creates a connection
-    pool that will be used for all calls by the CacheService class.
-
-    Reason that this instantiated at module-level: Module instantiation happens only at the first time
-       when the module is imported during a process. Therefore, there will only be 1 redis instance for
-       a process.
-
-    @return: Redis connection object.
-    """
-    connection = redis.StrictRedis(host=app.config['REDIS']['host'], port=app.config['REDIS']['port'])
-    return connection
 
 
 class CacheService(object):
@@ -53,6 +38,20 @@ class CacheService(object):
 
     def __init__(self):
         self.__pipe = None
+
+    def init_cache(self, app):
+        """
+        Creates a Redis instance that will be used to talk with Redis. This instance creates a connection
+        pool that will be used for all calls by the CacheService class.
+
+        Reason that this instantiated at module-level: Module instantiation happens only at the first time
+           when the module is imported during a process. Therefore, there will only be 1 redis instance for
+           a process.
+
+        @return: Redis connection object.
+        """
+        self._store = redis.StrictRedis(host=app.config['REDIS']['host'],
+                                        port=app.config['REDIS']['port'])
 
     def start_pipe(self, transaction=True):
         """Starts transaction and all subsequent calls to this service will be buffered"""
@@ -202,7 +201,7 @@ class CacheService(object):
         return self.__context_obj().lock(key, timeout, sleep)
 
     def _normalize_key(self, key):
-        return "{0}:{1}".format(app.config['REDIS']['key_prefix'], key)
+        return "{0}:{1}".format(current_app.config['REDIS']['key_prefix'], key)
 
     def _decode_value(self, value):
         if isinstance(value, basestring):
@@ -211,5 +210,4 @@ class CacheService(object):
             return value
 
 
-_store = get_redis_connection()     # pylint: disable=C0103
 cache = CacheService()         # pylint: disable=C0103

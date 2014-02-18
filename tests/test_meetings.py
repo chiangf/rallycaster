@@ -18,7 +18,7 @@ class MeetingsTestCase(unittest.TestCase):
         self.patcher.stop()
 
     def test_get_meetings(self):
-        response = self.app.get('/meetings/')
+        response = self.app.get('/api/meetings/')
         meetings = utilities.get_response_data(response)['meetings']
 
         self.assertGreater(len(meetings), 0)

@@ -8,9 +8,9 @@ window.App.models.MeetingModel = Backbone.Model.extend({
 
     url: function () {
         if (this.id) {
-            return "/meetings/" + this.id;
+            return "/api/meetings/" + this.id;
         } else {
-            return "/meetings/"
+            return "/api/meetings/"
         }
     }
 });

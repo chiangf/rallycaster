@@ -19,7 +19,7 @@ window.App.views.LoginView = Backbone.View.extend({
 
     loginFacebook: function () {
         $.ajax({
-            url: "/login/facebook/",
+            url: "/api/login/facebook/",
             type: "POST"
         });
     }

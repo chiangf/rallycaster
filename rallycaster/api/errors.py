@@ -1,14 +1,13 @@
-from flask import g, redirect, url_for
-
-from rallycaster import app
+from flask import current_app
+from rallycaster.api import api
 from rallycaster.helpers.serializers import jsonify_response
 
 
-@app.errorhandler(Exception)
+@api.errorhandler(Exception)
 def catch_all(exc):
     """Catches all exceptions and formats a response"""
 
-    app.logger.exception(exc)
+    current_app.logger.exception(exc)
 
     # Determine response HTTP status code depending on the exception type
     if isinstance(exc, AuthException):
@@ -23,7 +22,7 @@ def catch_all(exc):
     )
 
 
-@app.errorhandler(404)
+@api.errorhandler(404)
 def not_found(error):
     return jsonify_response(
         status_code=404,

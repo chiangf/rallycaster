@@ -1,12 +1,12 @@
 from decorator import decorator
 import requests
 import json
-from flask import g, url_for, request, session, make_response, render_template, redirect
-from flask.ext.oauth import OAuth
+from flask import Blueprint, current_app, g, url_for, request, session, make_response, render_template, redirect
 
-from rallycaster import app
+from rallycaster import oauth
 from rallycaster.helpers.serializers import jsonify_response
-from rallycaster.interfaces.error_handling import AuthException
+from rallycaster.api import api
+from rallycaster.api.errors import AuthException
 from rallycaster.services import user_service
 
 
@@ -45,25 +45,33 @@ def auth_required():
     return decorated_function
 
 
-oauth = OAuth()
-facebook = oauth.remote_app(app.config['FACEBOOK']['name'],
-                            base_url=app.config['FACEBOOK']['base_url'],
-                            request_token_url=app.config['FACEBOOK']['request_token_url'],
-                            access_token_url=app.config['FACEBOOK']['access_token_url'],
-                            authorize_url=app.config['FACEBOOK']['authorize_url'],
-                            consumer_key=app.config['FACEBOOK']['consumer_key'],
-                            consumer_secret=app.config['FACEBOOK']['consumer_secret'],
-                            request_token_params=app.config['FACEBOOK']['request_token_params'])
+facebook = oauth.remote_app("facebook", app_key="FACEBOOK")
+twitter = oauth.remote_app("twitter", app_key="TWITTER")
+google = oauth.remote_app("google", app_key="GOOGLE")
 
-google = oauth.remote_app(app.config['GOOGLE']['name'],
-                          base_url=app.config['GOOGLE']['base_url'],
-                          authorize_url=app.config['GOOGLE']['authorize_url'],
-                          request_token_url=app.config['GOOGLE']['request_token_url'],
-                          request_token_params=app.config['GOOGLE']['request_token_params'],
-                          access_token_url=app.config['GOOGLE']['access_token_url'],
-                          access_token_params=app.config['GOOGLE']['access_token_params'],
-                          consumer_key=app.config['GOOGLE']['consumer_key'],
-                          consumer_secret=app.config['GOOGLE']['consumer_secret'])
+
+# facebook = oauth.remote_app("facebook",
+#                             base_url="https://graph.facebook.com/",
+#                             request_token_url=None,
+#                             request_token_params={"scope": "publish_stream"},
+#                             access_token_url="/oauth/access_token",
+#                             authorize_url="https://www.facebook.com/dialog/oauth")
+#
+# twitter = oauth.remote_app("twitter",
+#                            base_url="http://api.twitter.com/1/",
+#                            request_token_url="http://api.twitter.com/oauth/request_token",
+#                            access_token_url="http://api.twitter.com/oauth/access_token",
+#                            authorize_url="http://api.twitter.com/oauth/authenticate")
+#
+# google = oauth.remote_app("google",
+#                           base_url="https://www.google.com/accounts/",
+#                           request_token_url=None,
+#                           request_token_params={'scope': 'https://www.googleapis.com/auth/userinfo.email \
+#                                                           https://www.googleapis.com/auth/userinfo.profile',
+#                                                 'response_type': 'code'},
+#                           access_token_url="https://accounts.google.com/o/oauth2/token",
+#                           access_token_params={'grant_type': 'authorization_code'},
+#                           authorize_url="https://accounts.google.com/o/oauth2/auth")
 
 
 @facebook.tokengetter
@@ -71,14 +79,14 @@ def get_facebook_oauth_token():
     return session.get(SESSION_OAUTH_TOKEN)
 
 
-@app.route('/login/<string:oauth_type>', methods=['GET'])
+@api.route('/login/<string:oauth_type>', methods=['GET'])
 def login(oauth_type):
     if oauth_type == OAuthTokenType.FACEBOOK:
-        response = facebook.authorize(callback=url_for('facebook_authorized',
+        response = facebook.authorize(callback=url_for('api.facebook_authorized',
                                       next=request.args.get('next') or request.referrer or None,
                                       _external=True))
     elif oauth_type == OAuthTokenType.GOOGLE:
-        response = facebook.authorize(callback=url_for('google_authorized',
+        response = facebook.authorize(callback=url_for('api.google_authorized',
                                       next=request.args.get('next') or request.referrer or None,
                                       _external=True))
     else:
@@ -87,7 +95,7 @@ def login(oauth_type):
     return response
 
 
-@app.route('/login/facebook/authorized/')
+@api.route('/login/facebook/authorized/')
 @facebook.authorized_handler
 def facebook_authorized(response):
     if response is None:
@@ -120,10 +128,10 @@ def facebook_authorized(response):
     # Store session token to user id mapping into cache
     user_service.create_session_for_user(user, session_token)
 
-    return redirect(url_for('begin'))
+    return redirect(url_for('frontend.begin'))
 
 
-@app.route('/login/google/authorized/')
+@api.route('/login/google/authorized/')
 @google.authorized_handler
 def google_callback(resp):
     # access_token = resp['access_token']
@@ -138,10 +146,10 @@ def google_callback(resp):
     #         login_user(user)
     #         next_url = session.get('next') or url_for('index')
     #         return redirect(next_url)
-    return redirect(url_for('login'))
+    return redirect(url_for('frontend.login'))
 
 
-@app.route('/logout/', methods=['PUT'])
+@api.route('/logout/', methods=['PUT'])
 def logout():
     session.pop(SESSION_OAUTH_TYPE)
     session.pop(SESSION_OAUTH_TOKEN)

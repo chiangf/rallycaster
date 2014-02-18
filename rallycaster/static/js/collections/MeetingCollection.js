@@ -1,7 +1,7 @@
 window.App.collections.MeetingCollection = Backbone.Collection.extend({
     model: App.models.MeetingModel,
 
-    url: "/meetings/",
+    url: "/api/meetings/",
 
     initialize: function () {
         _.bindAll(this, "getMeetingsForCalendar");

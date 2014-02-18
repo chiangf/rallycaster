@@ -1,11 +1,12 @@
 from datetime import datetime
-from flask import request
+from flask import request, Blueprint
 from flask_wtf import Form
 from wtforms import validators, TextField, TextAreaField, DateTimeField, FloatField
-from rallycaster import app
 from rallycaster.helpers.serializers import jsonify_response
-from rallycaster.interfaces.authentication import auth_required
-from rallycaster.interfaces.error_handling import InputException
+from rallycaster.api import api
+from rallycaster.api.authentication import auth_required
+from rallycaster.api.errors import InputException, catch_all
+from rallycaster.api.request_callbacks import before_request_callback, after_request_callback
 from rallycaster.services import meeting_service
 
 
@@ -21,7 +22,7 @@ class MeetingForm(Form):
                                                            validators.NumberRange(min=-90, max=90)])
 
 
-@app.route('/meetings/', methods=['POST'])
+@api.route('/meetings/', methods=['POST'])
 @auth_required()
 def create_meeting():
     form = MeetingForm()
@@ -46,7 +47,7 @@ def create_meeting():
     return jsonify_response(meeting_id=meeting_id)
 
 
-@app.route('/meetings/<string:meeting_id>', methods=['PUT'])
+@api.route('/meetings/<string:meeting_id>', methods=['PUT'])
 @auth_required()
 def update_meeting(meeting_id):
     form = MeetingForm()
@@ -73,7 +74,7 @@ def update_meeting(meeting_id):
     return jsonify_response(updated=True)
 
 
-@app.route('/meetings/', methods=['GET'])
+@api.route('/meetings/', methods=['GET'])
 @auth_required()
 def get_meetings_for_user():
     meetings = meeting_service.get_meetings()
