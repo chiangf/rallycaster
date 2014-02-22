@@ -1,13 +1,10 @@
 from decorator import decorator
-import requests
-import json
-from flask import Blueprint, current_app, g, url_for, request, session, make_response, render_template, redirect
+from flask import g, url_for, request, session, redirect
 
 from rallycaster import oauth
-from rallycaster.helpers.serializers import jsonify_response
 from rallycaster.api import api
 from rallycaster.api.errors import AuthException
-from rallycaster.services import user_service
+from rallycaster.users import users
 
 
 SESSION_OAUTH_TYPE = 'oauth_type'
@@ -27,7 +24,7 @@ def get_user_from_session():
         raise AuthException(u"Invalid or expired session token")
 
     session_token = oauth_token[0]
-    user = user_service.get_user_by_session_token(session_token)
+    user = users.get_user_by_session_token(session_token)
     if user is None:
         raise AuthException(u"Invalid or expired session token")
 
@@ -109,7 +106,7 @@ def facebook_authorized(response):
     me = facebook.get('/me')
 
     # Create user if it does not already exist. If it already exists, update the user information.
-    user = user_service.get_user_by_oauth_id(me.data['id'])
+    user = users.get_user_by_oauth_id(me.data['id'])
     user_info = {
         'first_name': me.data['first_name'],
         'last_name': me.data['last_name'],
@@ -120,13 +117,13 @@ def facebook_authorized(response):
     }
 
     if user is None:
-        user_service.add_user(user_info)
+        users.add_user(user_info)
     else:
         user_info['_id'] = user['_id']
-        user_service.update_user(user_info)
+        users.update_user(user_info)
 
     # Store session token to user id mapping into cache
-    user_service.create_session_for_user(user, session_token)
+    users.create_session_for_user(user, session_token)
 
     return redirect(url_for('frontend.begin'))
 
