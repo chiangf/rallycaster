@@ -7,7 +7,6 @@ from rallycaster.api.errors import InputException
 from rallycaster.meetings import meetings, MeetingForm
 
 
-
 @api.route('/meetings/', methods=['POST'])
 @auth_required()
 def create_meeting():
