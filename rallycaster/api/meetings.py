@@ -14,19 +14,7 @@ def create_meeting():
     if not form.validate():
         raise InputException(u"Meeting validation failed")
 
-    invited_people_list = [invitee.strip() for invitee in form.invited_people.data.split(',')]
-
-    meeting_info = {
-        'name': form.name.data,
-        'date': form.date.data,
-        'invited_people': invited_people_list,
-        'description': form.description.data,
-        'location': form.location.data,
-        'location_latitude': form.location_latitude.data,
-        'location_longitude': form.location_longitude.data,
-        'created': datetime.utcnow(),
-        'updated': datetime.utcnow()
-    }
+    meeting_info = form.get_model_json()
     meeting_id = meetings.add_meeting(meeting_info)
 
     return jsonify_response(meeting_id=meeting_id)
@@ -43,16 +31,11 @@ def update_meeting(meeting_id):
     if not meeting:
         raise InputException(u"Meeting {0} does not exist".format(meeting_id))
 
-    invited_people_list = [invitee.strip() for invitee in form.invited_people.data.split(',')]
+    updated_meeting_info = form.get_model_json()
 
-    meeting['name'] = form.name.data
-    meeting['date'] = form.date.data
-    meeting['invited_people'] = invited_people_list
-    meeting['description'] = form.description.data
-    meeting['location'] = form.location.data
-    meeting['location_latitude'] = form.location_latitude.data
-    meeting['location_longitude'] = form.location_longitude.data
-    meeting['updated'] = datetime.utcnow()
+    for key, value in meeting.iteritems():
+        if not key.startswith('_'):
+            meeting[key] = updated_meeting_info[key]
 
     meetings.update_meeting(meeting)
 
