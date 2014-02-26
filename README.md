@@ -4,6 +4,7 @@ rallycaster
 1. Create rallycaster/instance directory and create new rallycaster.cfg file
 
 2. Sample rallycaster.cfg:
+```
 FACEBOOK = {
     "name": "facebook",
     "base_url": "https://graph.facebook.com/",
@@ -54,3 +55,4 @@ REDIS = {
     "port": 6379,
     "key_prefix": "rally"
 }
+```
