@@ -9,26 +9,6 @@ def jsonify_response(status_code=200, *args, **kwargs):
     """
     Variation of https://github.com/mitsuhiko/flask/blob/master/flask/helpers.py
     to support jsonification of Python builtin objects (e.g. datetime).
-
-    Creates a :class:`~flask.Response` with the JSON representation of
-    the given arguments with an `application/json` mimetype.  The arguments
-    to this function are the same as to the :class:`dict` constructor.
-
-    Example usage::
-
-        @app.route('/_get_current_user')
-        def get_current_user():
-            return jsonify_response(username=g.user.username,
-                                    email=g.user.email,
-                                    id=g.user.id)
-
-    This will send a JSON response like this to the browser::
-
-        {
-            "username": "admin",
-            "email": "admin@localhost",
-            "id": 42
-        }
     """
     json_response = json.dumps(dict(*args, **kwargs),
                                cls=ComplexEncoderToString,
@@ -52,8 +32,7 @@ class ComplexEncoderToString(json.JSONEncoder):
     are normally un-serializable.  Same as ComplexEncoder except datetime and timedelta are converted to strings.
 
     Usage:
-      import json
-      serialized_value = json.dumps(value, cls=ComplexEncoderToString)
+      serialized = json.dumps(value, cls=ComplexEncoderToString)
     """
 
     def default(self, obj):     # pylint: disable=E0202
