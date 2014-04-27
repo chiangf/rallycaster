@@ -3,7 +3,6 @@ from flask import Flask
 from flask.ext.pymongo import PyMongo
 from flask_wtf.csrf import CsrfProtect
 from flask_oauthlib.client import OAuth
-from rallycaster.cache import cache
 
 
 mongo = PyMongo()
@@ -26,7 +25,6 @@ def create_app():
     mongo.init_app(app)
     csrf.init_app(app)
     oauth.init_app(app)
-    cache.init_cache(app)
 
     from rallycaster.api import api, authentication, errors, meetings, request_callbacks
     from rallycaster import frontend
