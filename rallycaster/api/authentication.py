@@ -105,6 +105,8 @@ def facebook_authorized(response):
 
     me = facebook.get('/me')
 
+    friends = facebook.get('/{user_id}/friends'.format(user_id=me.data['id']))
+
     # Create user if it does not already exist. If it already exists, update the user information.
     user = users.get_user_by_oauth_id(me.data['id'])
     user_info = {
